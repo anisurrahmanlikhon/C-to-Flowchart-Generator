@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>c2flowchart</title>
+    <script src="lib/raphael.min.js"></script>
+    <script src="lib/flowchart_makai.min.js"></script>
+</head>
+<body>
+    <textarea id="c-code" placeholder="c code here" rows="25" cols="100"></textarea>
+    <textarea id="flowchart-code" placeholder="flowchart code here" rows="25" cols="100"></textarea>
+    <div id="diagram"></div>
+    <script src="build/main.js"></script>
+    <script>
+        const listener = () => {
+            const div = document.querySelector('#diagram');
+            div.firstChild && div.removeChild(div.firstChild);
+            try {
+                flowchartCodeArea.style.color = '#000000';
+                const diagram = flowchart.parse(flowchartCodeArea.value);
+                diagram.drawSVG('diagram');
+            } catch (e) {
+                flowchartCodeArea.style.color = '#cc0000';
+                div.removeChild(div.firstChild);
+            }
+        };
+        cCodeArea.addEventListener('input', listener);
+        flowchartCodeArea.addEventListener('input', listener);
+    </script>
+</body>
+</html>
