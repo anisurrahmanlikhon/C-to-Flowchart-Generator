@@ -1,0 +1,13 @@
+start=>start: Start
+end=>end: End
+node_0=>condition: node == NULL || (node->leftChild && node->leftChild->data.key == key) || (node->rightChild && node->rightChild->data.key == key)?
+node_1=>operation: TreeNode *parent = getParentHelper(node->leftChild, key)
+node_2=>condition: parent == NULL?
+node_3=>end: return parent
+node_4=>end: return node
+node_5=>operation: parent = getParentHelper(node->rightChild, key)
+start->node_0->node_1->node_2->node_3
+node_2(no)->node_3
+node_2(yes)->node_5->node_3
+node_0(no)->node_1
+node_0(yes)->node_4

@@ -1,0 +1,23 @@
+[
+  {
+    "statements": [
+      {
+        "statements": [
+          "return node"
+        ],
+        "type": "if",
+        "expression": "node == NULL || (node->leftChild && node->leftChild->data.key == key) || (node->rightChild && node->rightChild->data.key == key)"
+      },
+      "TreeNode *parent = getParentHelper(node->leftChild, key)",
+      {
+        "statements": [
+          "parent = getParentHelper(node->rightChild, key)"
+        ],
+        "type": "if",
+        "expression": "parent == NULL"
+      },
+      "return parent"
+    ],
+    "type": "block"
+  }
+]
