@@ -6,7 +6,7 @@
     <script src="lib/raphael.min.js"></script>
     <script src="lib/flowchart_makai.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=sans-serif">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
     <style>
   body {
   font-family: sans-serif;
@@ -23,9 +23,7 @@
      <br>
     <h2>Generated Flowchart Here</h2>
     <div id="diagram"></div>
-    <script src="build/main.js"></script>
-
-    <div id="diagram"></div>
+    <button id="saveButton">Save Image</button>
     <script src="build/main.js"></script>
         
     <script>
@@ -46,34 +44,58 @@
     </script>
         
     <script>
-    // Function to save the diagram as a PNG image
-    const saveImage = () => {
-        const diagramContainer = document.getElementById('diagram');
-        const canvas = document.createElement('canvas');
+    const diagramContainer = document.querySelector('#diagram');
+    const flowchartCodeArea = document.querySelector('#flowchartCodeArea');
+
+    const updateDiagram = () => {
+        diagramContainer.firstChild && diagramContainer.removeChild(diagramContainer.firstChild);
+        try {
+            flowchartCodeArea.style.color = '#000000';
+            const diagram = flowchart.parse(flowchartCodeArea.value);
+            diagram.drawSVG('diagram');
+        } catch (e) {
+            flowchartCodeArea.style.color = '#cc0000';
+            diagramContainer.removeChild(diagramContainer.firstChild);
+        }
+    };
+
+    // Add input event listeners to trigger diagram update
+    flowchartCodeArea.addEventListener('input', updateDiagram);
+
+    // Add click event listener to the "Save Image" button
+    document.getElementById('saveButton').addEventListener('click', () => {
+        saveImage();
+    });
+
+    // Function to save the diagram as an image
+    function saveImage() {
+        // Create a new canvas element
+        var canvas = document.createElement('canvas');
         canvas.width = diagramContainer.offsetWidth;
         canvas.height = diagramContainer.offsetHeight;
-        const context = canvas.getContext('2d');
-        context.drawSvg(diagramContainer.innerHTML, 0, 0, canvas.width, canvas.height);
-        const dataUrl = canvas.toDataURL('image/png');
 
-        const link = document.createElement('a');
+        // Get the 2D rendering context
+        var context = canvas.getContext('2d');
+
+        // Draw the content of the diagram onto the canvas
+        context.drawSvg(diagramContainer.innerHTML, 0, 0, canvas.width, canvas.height);
+
+        // Convert the canvas content to a data URL
+        var dataUrl = canvas.toDataURL('image/png');
+
+        // Create a temporary link element
+        var link = document.createElement('a');
         link.href = dataUrl;
         link.download = 'diagram.png';
 
+        // Append the link to the document and trigger a click event to download the image
         document.body.appendChild(link);
         link.click();
+
+        // Remove the temporary link element
         document.body.removeChild(link);
-    };
-
-    // Create a button and attach the saveImage function to its click event
-    const saveButton = document.createElement('button');
-    saveButton.textContent = 'Save PNG Image';
-    saveButton.addEventListener('click', saveImage);
-
-    // Append the button to the body of the document
-    document.body.appendChild(saveButton);
+    }
 </script>
-
 
 
 </center>
