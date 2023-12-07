@@ -205,7 +205,7 @@ int main() {
     if (j == r - 1)
     printf("\n");
   }
-  return 0;
+  
 }
 ```
 10.
