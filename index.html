@@ -5,11 +5,33 @@
     <title> C2Flow || C to Flowchart Generator</title>
     <script src="lib/raphael.min.js"></script>
     <script src="lib/flowchart_makai.min.js"></script>
+    
+    <style>
+        
+    c-code {
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    height: 250px;
+    width: 60%;
+    }
+
+   flowchart-code{
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    height: 250px;
+    width: 60%;
+    
+   }
+
+</style>
+    
 </head>
 <body>
     <center>
     <h3> C2Flow || C to Flowchart Generator</h3>
-    <textarea style="background-color: black; color: white;" id="c-code" placeholder="Write a c code here" rows="25" cols="100"></textarea>
+    <textarea id="c-code" placeholder="Write a c code here" rows="25" cols="100"></textarea>
     <textarea  id="flowchart-code" placeholder="Generated flow-code here" rows="25" cols="100"></textarea>
      <br>
     <h3> Generated Flowchart Here</h3>
