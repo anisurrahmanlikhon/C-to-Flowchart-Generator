@@ -27,60 +27,54 @@
         
     <div id="diagram"></div>
     <script src="build/main.js"></script>
+
+    <div id="diagram"></div>
+    <script src="build/main.js"></script>
         
     <script>
-    const diagramContainer = document.getElementById('diagram');
-
+        const listener = () => {
+            const div = document.querySelector('#diagram');
+            div.firstChild && div.removeChild(div.firstChild);
+            try {
+                flowchartCodeArea.style.color = '#000000';
+                const diagram = flowchart.parse(flowchartCodeArea.value);
+                diagram.drawSVG('diagram');
+            } catch (e) {
+                flowchartCodeArea.style.color = '#cc0000';
+                div.removeChild(div.firstChild);
+            }
+        };
+        cCodeArea.addEventListener('input', listener);
+        flowchartCodeArea.addEventListener('input', listener);
+    </script>
+        
+    <script>
     // Function to save the diagram as a PNG image
-    function saveImage() {
-        // Create a new canvas element
+    const saveImage = () => {
+        const diagramContainer = document.getElementById('diagram');
         const canvas = document.createElement('canvas');
         canvas.width = diagramContainer.offsetWidth;
         canvas.height = diagramContainer.offsetHeight;
-
-        // Get the 2D rendering context
         const context = canvas.getContext('2d');
-
-        // Draw the content of the diagram onto the canvas using canvg
-        canvg(canvas, diagramContainer.innerHTML);
-
-        // Convert the canvas content to a data URL
+        context.drawSvg(diagramContainer.innerHTML, 0, 0, canvas.width, canvas.height);
         const dataUrl = canvas.toDataURL('image/png');
 
-        // Create a temporary link element
         const link = document.createElement('a');
         link.href = dataUrl;
         link.download = 'diagram.png';
 
-        // Append the link to the document and trigger a click event to download the image
         document.body.appendChild(link);
         link.click();
-
-        // Remove the temporary link element
         document.body.removeChild(link);
-    }
-
-    const listener = () => {
-        // Clear the diagram container
-        while (diagramContainer.firstChild) {
-            diagramContainer.removeChild(diagramContainer.firstChild);
-        }
-
-        try {
-            // Create a new diagram and draw it onto the container
-            const diagram = flowchart.parse(/* Your flowchart code here */);
-            diagram.drawSVG('diagram');
-        } catch (e) {
-            // Handle errors if any
-            console.error(e);
-        }
     };
 
-    // Attach the listener function to the initial page load
-    window.addEventListener('load', listener);
+    // Create a button and attach the saveImage function to its click event
+    const saveButton = document.createElement('button');
+    saveButton.textContent = 'Save PNG Image';
+    saveButton.addEventListener('click', saveImage);
 
-    // Attach the listener function to the button's click event
-    document.getElementById('saveButton').addEventListener('click', saveImage);
+    // Append the button to the body of the document
+    document.body.appendChild(saveButton);
 </script>
 
 
