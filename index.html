@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>C2Flow||C to Flowchart Generator</title>
+    <title> C2Flow || C to Flowchart Generator</title>
     <script src="lib/raphael.min.js"></script>
     <script src="lib/flowchart_makai.min.js"></script>
 </head>
 <body>
+    <center>
+    <h1> C2Flow || C to Flowchart Generato</h1>
     <textarea id="c-code" placeholder="c code here" rows="25" cols="100"></textarea>
     <textarea id="flowchart-code" placeholder="flowchart code here" rows="25" cols="100"></textarea>
     <div id="diagram"></div>
@@ -27,5 +29,6 @@
         cCodeArea.addEventListener('input', listener);
         flowchartCodeArea.addEventListener('input', listener);
     </script>
+</center>
 </body>
 </html>
