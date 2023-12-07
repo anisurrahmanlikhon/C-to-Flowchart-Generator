@@ -22,23 +22,45 @@
      <br>
     <h2>Generated Flowchart Here</h2>
     <div id="diagram"></div>
-    <script src="build/main.js"></script>
-    <script>
-        const listener = () => {
-            const div = document.querySelector('#diagram');
-            div.firstChild && div.removeChild(div.firstChild);
-            try {
-                flowchartCodeArea.style.color = '#000000';
-                const diagram = flowchart.parse(flowchartCodeArea.value);
-                diagram.drawSVG('diagram');
-            } catch (e) {
-                flowchartCodeArea.style.color = '#cc0000';
-                div.removeChild(div.firstChild);
-            }
-        };
-        cCodeArea.addEventListener('input', listener);
-        flowchartCodeArea.addEventListener('input', listener);
-    </script>
+<textarea id="flowchartCodeArea"></textarea>
+<button id="saveButton">Save SVG</button>
+
+<script src="build/main.js"></script>
+<script>
+    const listener = () => {
+        const div = document.querySelector('#diagram');
+        div.firstChild && div.removeChild(div.firstChild);
+        try {
+            flowchartCodeArea.style.color = '#000000';
+            const diagram = flowchart.parse(flowchartCodeArea.value);
+            diagram.drawSVG('diagram');
+        } catch (e) {
+            flowchartCodeArea.style.color = '#cc0000';
+            div.removeChild(div.firstChild);
+        }
+    };
+
+    const saveButton = document.getElementById('saveButton');
+    const flowchartCodeArea = document.getElementById('flowchartCodeArea');
+
+    flowchartCodeArea.addEventListener('input', listener);
+
+    saveButton.addEventListener('click', () => {
+        const svgElement = document.querySelector('#diagram svg');
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const blob = new Blob([svgData], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'diagram.svg';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+</script>
+
 </center>
 </body>
 </html>
