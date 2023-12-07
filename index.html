@@ -6,6 +6,8 @@
     <script src="lib/raphael.min.js"></script>
     <script src="lib/flowchart_makai.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=sans-serif">
+    <script src="https://cdn.jsdelivr.net/npm/flowchart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvg"></script>
     <style>
   body {
   font-family: sans-serif;
@@ -21,24 +23,65 @@
     <textarea style=" background-color:#D3D3D3; border:0px; border-radius: 5px; height: 300px; width: 30%;" id="flowchart-code" placeholder="Generated flow-code here" rows="25" cols="100"></textarea>
      <br>
     <h2>Generated Flowchart Here</h2>
+    <button id="saveButton">Save PNG Image</button>
+        
     <div id="diagram"></div>
     <script src="build/main.js"></script>
+        
     <script>
-        const listener = () => {
-            const div = document.querySelector('#diagram');
-            div.firstChild && div.removeChild(div.firstChild);
-            try {
-                flowchartCodeArea.style.color = '#000000';
-                const diagram = flowchart.parse(flowchartCodeArea.value);
-                diagram.drawSVG('diagram');
-            } catch (e) {
-                flowchartCodeArea.style.color = '#cc0000';
-                div.removeChild(div.firstChild);
-            }
-        };
-        cCodeArea.addEventListener('input', listener);
-        flowchartCodeArea.addEventListener('input', listener);
-    </script>
+    const diagramContainer = document.getElementById('diagram');
+
+    // Function to save the diagram as a PNG image
+    function saveImage() {
+        // Create a new canvas element
+        const canvas = document.createElement('canvas');
+        canvas.width = diagramContainer.offsetWidth;
+        canvas.height = diagramContainer.offsetHeight;
+
+        // Get the 2D rendering context
+        const context = canvas.getContext('2d');
+
+        // Draw the content of the diagram onto the canvas using canvg
+        canvg(canvas, diagramContainer.innerHTML);
+
+        // Convert the canvas content to a data URL
+        const dataUrl = canvas.toDataURL('image/png');
+
+        // Create a temporary link element
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'diagram.png';
+
+        // Append the link to the document and trigger a click event to download the image
+        document.body.appendChild(link);
+        link.click();
+
+        // Remove the temporary link element
+        document.body.removeChild(link);
+    }
+
+    const listener = () => {
+        // Clear the diagram container
+        while (diagramContainer.firstChild) {
+            diagramContainer.removeChild(diagramContainer.firstChild);
+        }
+
+        try {
+            // Create a new diagram and draw it onto the container
+            const diagram = flowchart.parse(/* Your flowchart code here */);
+            diagram.drawSVG('diagram');
+        } catch (e) {
+            // Handle errors if any
+            console.error(e);
+        }
+    };
+
+    // Attach the listener function to the initial page load
+    window.addEventListener('load', listener);
+
+    // Attach the listener function to the button's click event
+    document.getElementById('saveButton').addEventListener('click', saveImage);
+</script>
 
 
 
