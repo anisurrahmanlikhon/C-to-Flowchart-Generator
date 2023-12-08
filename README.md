@@ -2,7 +2,11 @@
 <img src="ctoflow.jpg">
 
 C to Flowchart Generator show us graphical representation of execution step of C code.
-### C Code Examples
+
+# Documentation
+Generate a interactive Flowchart from c code.
+
+### C Code Examples Here
 1.
 ```C++
 #include <stdio.h>
