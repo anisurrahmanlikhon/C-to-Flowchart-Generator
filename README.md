@@ -1,5 +1,5 @@
 # C to Flowchart Generator
-<img src="ctoflow.jpg">
+<img src="ctoflow.jpeg">
 
 C to Flowchart Generator show us graphical representation of execution step of C code.
 ### C Code Examples
