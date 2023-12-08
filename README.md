@@ -4,7 +4,7 @@
 C to Flowchart Generator show us graphical representation of execution step of C code.
 
 # Documentation
-Generate a interactive Flowchart from c code.
+Generate an interactive Flowchart from c code.
 
 ### C Code Examples Here
 1.
